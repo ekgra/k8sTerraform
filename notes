@@ -60,3 +60,17 @@ $ curl http://13.55.185.229:31950  # <<<<  This IP can be the public IP for mast
     <html>
     <head>
     <title>Welcome to nginx!</title>
+
+
+Ref -
+    https://github.com/kunchalavikram1427/YouTube_Series/tree/main
+    https://www.youtube.com/watch?v=z_w3me8tmJA
+    https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/
+    https://github.com/ekgra/k8sTerraform
+    
+    https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model
+        https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy
+            https://www.weave.works/docs/net/latest/kubernetes/kube-addon/
+
+    Default CIDR range for weavenet pod network is  10.32.0.0/12 
+        https://www.weave.works/docs/net/latest/tasks/ipam/configuring-weave/
