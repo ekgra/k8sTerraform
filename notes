@@ -1,0 +1,62 @@
+https://spacelift.io/blog/terraform-output <<< refactor this way >>>
+https://www.middlewareinventory.com/blog/terraform-ebs_block_device-example/  << tfvars >>
+
+user_data log - /var/log/cloud-init-output.log
+
+
+https://stackoverflow.com/questions/50835636/accessing-terraform-variables-within-user-data-provider-template-file << read vars into the user_data script >>
+
+
+sudo hostnamectl set-hostname master
+sudo hostnamectl set-hostname worker-1
+sudo hostnamectl set-hostname worker-2
+
+----------------------------------------------------------------
+START THE CLUSTER
+----------------------------------------------------------------
+
+
+MASTER
+---------
+sudo kubeadm config images pull
+sudo kubeadm init
+
+kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
+
+WORKERS
+---------
+sudo kubeadm join 192.168.0.9:6443 --token d88e6y.ix0bt7wa68ne331w \
+  --discovery-token-ca-cert-hash sha256:3fca91aa2440fcb4fa3f48a46a456b943f91acf18fab0675f9ba77413af63fd5 
+
+
+alias kc=kubectl
+
+kc get nodes
+kc get pods -A
+
+
+$ kubectl run nginx --image=nginx --port=80 
+    pod/nginx created
+$ kc get po 
+    NAME    READY   STATUS              RESTARTS   AGE
+    nginx   0/1     ContainerCreating   0          5s
+$ kubectl expose pod nginx --port=80 --type=NodePort
+    service/nginx exposed
+
+$ kubectl get svc
+    NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP        29m
+    nginx        NodePort    10.104.68.136   <none>        80:31950/TCP   2m5s
+
+$ curl http://10.104.68.136:80
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
+
+$ curl http://13.55.185.229:31950  # <<<<  This IP can be the public IP for master or any worker >>>>
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
